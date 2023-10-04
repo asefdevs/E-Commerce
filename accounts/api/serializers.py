@@ -35,3 +35,8 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'password':'Password must be at least 8 characters'})
         return value
 
+class UserLoginSerializer(serializers.Serializer):
+    username=serializers.CharField(max_length=150)
+    password=serializers.CharField(write_only=True)
+
+
