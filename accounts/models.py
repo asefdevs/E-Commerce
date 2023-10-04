@@ -17,8 +17,8 @@ class UserProfile(models.Model):
         ('female', 'Female'),
     )
     
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
-    birthdate=models.DateField()
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES,blank=True,null=True)
+    birthdate=models.DateField(blank=True, null=True)
     height=models.PositiveIntegerField(blank=True,null=True)
     phone_number=models.CharField(max_length=255,blank=True,null=True)
     
