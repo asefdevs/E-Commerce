@@ -14,9 +14,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         password2=self.validated_data['password2']
         email=self.validated_data['email']
         username=self.validated_data['username']
+        first_name=self.validated_data['first_name']
+        last_name=self.validated_data['last_name']
         if password != password2:
             raise serializers.ValidationError({'password':'Passwords do not match'})
-        user=CustomUser.objects.create(username=username, email=email, password=password)
+        user=CustomUser.objects.create(username=username, email=email, password=password,first_name=first_name,last_name=last_name)
         user.set_password(password)
         user.save()
         return user
