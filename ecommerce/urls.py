@@ -20,6 +20,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from accounts.api.urls import urlpatterns as account_url
+from estore.api.urls import urlpatterns as estore_url
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -27,6 +28,7 @@ from rest_framework_simplejwt.views import (
 )
 urlpatterns = [
     path('api/account/',include(account_url)),
+    path('api/',include(estore_url)),
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

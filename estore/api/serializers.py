@@ -1,19 +1,36 @@
 from rest_framework import serializers
-from estore.models import Product,Brand,Category
+from estore.models import Product, Category
 
-class BrandSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Brand
-        fields = '__all__'
 
-class CategorySerializer(serializers.ModelSerializer):
+class CategoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
 
-class ProductSerializer(serializers.ModelSerializer):
-    category=serializers.StringRelatedField(many=True)
-    brand=serializers.StringRelatedField(many=True)
+class CategoryDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Category
+        fields=['name']
+
+
+class ProductListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = [
+            'name',
+            'description',
+            'price',
+            'category',
+            'image',
+            'brand',
+            'stock_quantity',
+            'size',
+            'color',
+            'created_at',
+            'updated_at',
+        ]
+class ProductDetailSerializer(serializers.ModelSerializer):
+    category=serializers.StringRelatedField(read_only=True)
+    class Meta:
+        model=Product
+        fields='__all__'
