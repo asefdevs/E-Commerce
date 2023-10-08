@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import CustomUser
+from accounts.models import CustomUser,UserProfile
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     password2=serializers.CharField(write_only=True)
@@ -40,3 +40,12 @@ class UserLoginSerializer(serializers.Serializer):
     password=serializers.CharField(write_only=True)
 
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=UserProfile
+        fields=['gender','birthdate','height','phone_number']
+
+class ProfilePhotoUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=UserProfile
+        fields=['profile_photo']

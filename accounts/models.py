@@ -6,7 +6,6 @@ class CustomUser(AbstractUser):
     is_verified = models.BooleanField(default=False)
     email_verification_token = models.CharField(
         max_length=64, blank=True, null=True)
-
     def __str__(self):
         return self.username
     
@@ -21,9 +20,7 @@ class UserProfile(models.Model):
     birthdate=models.DateField(blank=True, null=True)
     height=models.PositiveIntegerField(blank=True,null=True)
     phone_number=models.CharField(max_length=255,blank=True,null=True)
-    
-    profile_photo=models.ImageField(blank=True,null=True)
-
+    profile_photo=models.ImageField(blank=True,null=True,upload_to='profile_photos')
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
