@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts.apps.AccountsConfig',
     'estore.apps.EstoreConfig',
-    'showflow.apps.ShopflowConfig'
+    'shopflow.apps.ShopflowConfig',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
