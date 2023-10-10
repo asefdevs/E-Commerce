@@ -15,6 +15,7 @@ class ProductListApiView(generics.ListAPIView):
     pagination_class=ProductPagination
     filter_backends=(SearchFilter,OrderingFilter)
     search_fields=('name','brand','category__name')
+    ordering_fields=('price','created_at')
 class ProductCreateApiView(generics.CreateAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductCreateSerializer
