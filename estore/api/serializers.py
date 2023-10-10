@@ -13,7 +13,7 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         fields=['name']
 
 
-class ProductListSerializer(serializers.ModelSerializer):
+class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
@@ -29,6 +29,25 @@ class ProductListSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+class ProductListSerializer(serializers.ModelSerializer):
+    category=serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = [
+            'name',
+            'description',
+            'price',
+            'category',
+            'image',
+            'brand',
+            'stock_quantity',
+            'size',
+            'color',
+            'created_at',
+            'updated_at',
+        ]
+
 class ProductDetailSerializer(serializers.ModelSerializer):
     category=serializers.StringRelatedField(read_only=True)
     class Meta:
