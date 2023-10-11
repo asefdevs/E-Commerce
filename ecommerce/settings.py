@@ -64,6 +64,14 @@ REST_FRAMEWORK = {
     )
 }
 
+from datetime import timedelta
+
+SIMPJWT_ACCESS_TOKEN_LIFETIME = timedelta(days=1)
+SIMPJWT_REFRESH_TOKEN_LIFETIME = timedelta(days=7)
+SIMPJWT_SLIDING_TOKEN_REFRESH_LIFETIME = timedelta(days=1)
+SIMPJWT_SLIDING_TOKEN_LIFETIME = timedelta(days=14)
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
