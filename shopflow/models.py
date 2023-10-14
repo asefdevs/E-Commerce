@@ -25,7 +25,7 @@ class CartItem(models.Model):
 
 class Favorites(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='product_favrorites')
 
     def __str__(self):
-        return f'Favorites for {self.user.username}'
+        return f'{self.product} for {self.user.username}'

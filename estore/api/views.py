@@ -11,7 +11,7 @@ from rest_framework.filters import SearchFilter,OrderingFilter
 class ProductListApiView(generics.ListAPIView):
     queryset=Product.objects.filter(is_active=True)
     serializer_class=ProductListSerializer
-    # permission_classes=[IsAdminorReadOnly]
+    permission_classes=[IsAdminorReadOnly]
     pagination_class=ProductPagination
     filter_backends=(SearchFilter,OrderingFilter)
     search_fields=('name','brand','category__name')
@@ -19,18 +19,18 @@ class ProductListApiView(generics.ListAPIView):
 class ProductCreateApiView(generics.CreateAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductCreateSerializer
-    # permission_classes=[permissions.IsAdminUser]
+    permission_classes=[permissions.IsAdminUser]
 
 
 class CategoryApiView(generics.ListCreateAPIView):
     queryset=Category.objects.all()
     serializer_class=CategoryListSerializer
-    # permission_classes=[IsAdminorReadOnly]
+    permission_classes=[IsAdminorReadOnly]
 
 class ProductDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset=Product.objects.all()
     serializer_class=ProductDetailSerializer
-    # permission_classes=[IsAdminorReadOnly]
+    permission_classes=[IsAdminorReadOnly]
 
 class CategoryDetailApiView(APIView):
     def get(self,request,id):
