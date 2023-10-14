@@ -64,12 +64,16 @@ REST_FRAMEWORK = {
     )
 }
 
-from datetime import timedelta
+from datetime import  timedelta
 
-SIMPJWT_ACCESS_TOKEN_LIFETIME = timedelta(days=1)
-SIMPJWT_REFRESH_TOKEN_LIFETIME = timedelta(days=7)
-SIMPJWT_SLIDING_TOKEN_REFRESH_LIFETIME = timedelta(days=1)
-SIMPJWT_SLIDING_TOKEN_LIFETIME = timedelta(days=14)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=86400),  # Set the token lifetime to 1 day (86400 seconds)
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_REFRESH_COMPENSATION': timedelta(days=1),
+    'SLIDING_TOKEN_COMPENSATION': timedelta(days=1),
+}
+
 
 
 TEMPLATES = [
