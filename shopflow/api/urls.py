@@ -8,4 +8,6 @@ urlpatterns = [
     path('add_favorites/',views.AddFavoritesView.as_view(), name='add-favorites'),
     path('favorites/',views.ListFavoritesView.as_view(), name='list-favorites'),
     path('delete_favorite/<int:pk>/',views.FavoritesDetailView.as_view(), name='favorites-detail'),
+    path('add_order/',views.AddOrderAPIView.as_view(), name='add_order'),
+    path('recent_orders/',views.RecentOrderApiView.as_view(), name='recent_orders'),
 ]

@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from shopflow.models import CartItem, Cart,Favorites
+from shopflow.models import CartItem, Cart,Favorites,Order
 from estore.models import Product
-
+from estore.api.serializers import ProductListSerializer
 class CartItemGetSerializer(serializers.ModelSerializer):
     cart = serializers.StringRelatedField()
     product=serializers.StringRelatedField()
@@ -41,7 +41,35 @@ class GetFavoritesSerializer(serializers.ModelSerializer):
     class Meta:
         model=Favorites
         fields='__all__'
-        
+
+class CreateOrderSerializer(serializers.ModelSerializer):
+    # products=serializers.SerializerMethodField()
+    class Meta:
+        model=Order
+        fields=['payment_method']
+
+    # def get_products(self,obj):
+    #     cart=obj.cart
+    #     cart_items=CartItem.objects.filter(cart=cart)
+    #     products = [item.product for item in cart_items]
+    #     product_serializer=ProductListSerializer(products,many=True)
+    #     return product_serializer.data
+    
+class GetOrderSerializer(serializers.ModelSerializer):
+    products=serializers.SerializerMethodField()
+    
+    class Meta:
+        model=Order
+        fields=['payment_method','products','cart']
+
+    def get_products(self,obj):
+        cart=obj.cart
+        cart_items=CartItem.objects.filter(cart=cart)
+        products = [item.product for item in cart_items]
+        product_serializer=ProductListSerializer(products,many=True)
+        return product_serializer.data
+
+
 
         
 

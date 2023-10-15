@@ -1,6 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
-from shopflow.models import CartItem, Cart, Favorites
+from shopflow.models import CartItem, Cart, Favorites,Order
 from .serializers import *
 from .permissions import IsCartOwner,IsOwner
 from rest_framework.serializers import ValidationError
@@ -70,3 +70,22 @@ class FavoritesDetailView(generics.DestroyAPIView):
     serializer_class=AddFavoritesSerializer
     queryset=Favorites.objects.all()
     permission_classes=[IsOwner]
+
+
+class AddOrderAPIView(generics.CreateAPIView):
+    serializer_class=CreateOrderSerializer
+    queryset=Order.objects.all()
+    permission_classes=[permissions.IsAuthenticated]
+
+    def perform_create(self,serializer):
+        user=self.request.user
+        cart=Cart.objects.get(user=user)
+        serializer.save(cart=cart)
+class RecentOrderApiView(generics.ListAPIView):
+    serializer_class=GetOrderSerializer
+    permission_classes=[permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user=self.request.user
+        orders=Order.objects.filter(cart__user=user)
+        return orders 
