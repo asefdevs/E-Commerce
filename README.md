@@ -32,13 +32,6 @@ Clone the repository:
 git clone git@github.com:asefdevs/E-Commerce.git
 
 ```
-Set up a virtual environment:
-
-```bash
-  python3 -m venv myvenv 
-  source myenv/bin/activate
-```
-
     
 ## Usage
 
@@ -59,35 +52,40 @@ http://localhost:8000/
 ## 🔗 Endpoints and Features
 
 
-User Account Operations:
+### User Account Operations
 
-        Register: http://0.0.0.0:8000/api/account/register/
-        Verify Email: http://0.0.0.0:8000/api/account/verify_email/'token will be here'
-        Login: http://0.0.0.0:8000/api/account/login/
-        User Profile Details: http://0.0.0.0:8000/api/account/profile/detail/
-        Change Profile Photo: http://0.0.0.0:8000/api/account/profile/photo_update/
+| Endpoint                                | HTTP Method | Description                                       |
+|-----------------------------------------|-------------|---------------------------------------------------|
+| /api/account/register/                  | POST        | User registration                                 |
+| /api/account/verify_email/{token}/      | GET         | Verify user's email using a token                 |
+| /api/account/login/                     | POST        | User login                                        |
+| /api/account/profile/detail/            | GET         | Retrieve user's profile details                   |
+| /api/account/profile/photo_update/      | PUT         | Update user's profile photo                       |
 
+### E-commerce Store Functions
 
-E-commerce Store Functions:
+| Endpoint                                | HTTP Method | Description                                       |
+|-----------------------------------------|-------------|---------------------------------------------------|
+| /api/store/products/                    | GET         | Retrieve list of products                         |
+| /api/store/products/<int:pk>/           | GET         | Retrieve details of a specific product            |
+| /api/store/add-product/                 | POST        | Add a new product to the store                    |
+| /api/store/categories/                  | GET         | Retrieve list of product categories               |
+| /api/store/categories/<int:id>/         | GET         | Retrieve details of a specific category           |
 
-        Products List: http://0.0.0.0:8000/api/store/products/
-        Product Details: http://0.0.0.0:8000/api/store/products/<int:pk>/
-        Add Product: http://0.0.0.0:8000/api/store/add-product/
-        Categories List: http://0.0.0.0:8000/api/store/categories/
-        Category Details: http://0.0.0.0:8000/api/store/categories/<int:id>/
+### Shopping Cart, Favorites, and Orders
 
+| Endpoint                                | HTTP Method | Description                                       |
+|-----------------------------------------|-------------|---------------------------------------------------|
+| /api/shopping/cartitems/                | GET         | Retrieve items in the shopping cart               |
+| /api/shopping/add_item/                 | POST        | Add an item to the shopping cart                  |
+| /api/shopping/cartitems/<int:pk>/       | GET         | Retrieve details of a specific item in the cart   |
+| /api/shopping/add_favorites/            | POST        | Add items to the favorites list                   |
+| /api/shopping/favorites/                | GET         | Retrieve list of favorite items                   |
+| /api/shopping/delete_favorite/<int:pk>/ | DELETE      | Delete a specific favorite item                   |
+| /api/shopping/add_order/                | POST        | Add an order for items in the cart                |
+| /api/shopping/recent_orders/            | GET         | Retrieve list of recent orders                    |
+| /api/shopping/cancel_order/<int:pk>/    | DELETE      | Cancel a specific order                           |
 
-Shopping Cart, Favorites, and Orders:
-
-        Shopping Cart Items: http://0.0.0.0:8000/api/shopping/cartitems/
-        Add Item to Cart: http://0.0.0.0:8000/api/shopping/add_item/
-        Cart Item Details: http://0.0.0.0:8000/api/shopping/cartitems/<int:pk>/
-        Add to Favorites: http://0.0.0.0:8000/api/shopping/add_favorites/
-        Favorites List: http://0.0.0.0:8000/api/shopping/favorites/
-        Favorites Item Details: http://0.0.0.0:8000/api/shopping/delete_favorite/<int:pk>/
-        Add Order: http://0.0.0.0:8000/api/shopping/add_order/
-        Recent Orders: http://0.0.0.0:8000/api/shopping/recent_orders/
-        Cancel Order: http://0.0.0.0:8000/api/shopping/cancel_order/<int:pk>/
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
