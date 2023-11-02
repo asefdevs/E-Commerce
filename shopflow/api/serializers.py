@@ -1,12 +1,12 @@
 from rest_framework import serializers
 from shopflow.models import *
 from estore.models import Product
-from estore.api.serializers import ProductListSerializer
+from estore.api.serializers import ProductListSerializer, ProductDetailSerializer
 
 
 class CartItemGetSerializer(serializers.ModelSerializer):
     cart = serializers.StringRelatedField()
-    product = serializers.StringRelatedField()
+    product = ProductListSerializer()
 
     class Meta:
         model = CartItem
@@ -24,7 +24,7 @@ class CartItemPostSerializer(serializers.ModelSerializer):
         product = Product.objects.get(id=product_id)
         if product.stock_quantity < quantity:
             raise serializers.ValidationError(
-               {"message" : 'Quantity exceeds stock quantity'})
+                {"message": 'Quantity exceeds stock quantity'})
         return value
 
 
@@ -41,7 +41,7 @@ class AddFavoritesSerializer(serializers.ModelSerializer):
 
 
 class GetFavoritesSerializer(serializers.ModelSerializer):
-    product = serializers.StringRelatedField()
+    product = ProductDetailSerializer()
     user = serializers.StringRelatedField()
 
     class Meta:
@@ -56,10 +56,8 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 
 
 class GetOrderSerializer(serializers.ModelSerializer):
-    products=CartItemGetSerializer(many=True)
+    products = CartItemGetSerializer(many=True)
 
     class Meta:
         model = Order
         fields = '__all__'
-
-

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 from decouple import config
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'shopflow.apps.ShopflowConfig',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -66,16 +68,14 @@ REST_FRAMEWORK = {
     )
 }
 
-from datetime import  timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=86400), 
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=86400),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
     'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
     'SLIDING_TOKEN_REFRESH_COMPENSATION': timedelta(days=1),
     'SLIDING_TOKEN_COMPENSATION': timedelta(days=1),
 }
-
 
 
 TEMPLATES = [
@@ -160,4 +160,3 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
 SITE_URL = config('SITE_URL')
-

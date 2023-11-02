@@ -15,9 +15,10 @@ class Product(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(
         max_digits=10, decimal_places=2, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name='category')
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, related_name='category')
     image = models.ImageField(upload_to='products/', blank=True, null=True)
-    brand=models.CharField(max_length=255, blank=True, null=True)
+    brand = models.CharField(max_length=255, blank=True, null=True)
     stock_quantity = models.PositiveIntegerField(blank=True, null=True)
     size = models.CharField(max_length=80, blank=True, null=True)
     color = models.CharField(max_length=80, blank=True, null=True)

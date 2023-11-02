@@ -8,8 +8,6 @@ class CategoryListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
 class ProductCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -29,7 +27,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField(read_only=True)
+    category = CategoryListSerializer()
 
     class Meta:
         model = Product

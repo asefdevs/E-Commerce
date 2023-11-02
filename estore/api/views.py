@@ -7,7 +7,8 @@ from rest_framework import status
 from rest_framework import permissions
 from .permissions import IsAdminorReadOnly
 from .pagination import ProductPagination
-from rest_framework.filters import SearchFilter, OrderingFilter
+from estore.filters import ProductFilter
+from django_filters import rest_framework as filters
 
 
 class ProductListApiView(generics.ListAPIView):
@@ -15,9 +16,8 @@ class ProductListApiView(generics.ListAPIView):
     serializer_class = ProductListSerializer
     permission_classes = [permissions.AllowAny]
     pagination_class = ProductPagination
-    filter_backends = (SearchFilter, OrderingFilter)
-    search_fields = ('name', 'brand', 'category__name')
-    ordering_fields = ('price', 'created_at')
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ProductFilter
 
 
 class ProductCreateApiView(generics.CreateAPIView):
@@ -25,15 +25,18 @@ class ProductCreateApiView(generics.CreateAPIView):
     serializer_class = ProductCreateSerializer
     permission_classes = [permissions.IsAdminUser]
 
+
 class ProductDetailApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
     permission_classes = [IsAdminorReadOnly]
 
+
 class CategoryApiView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategoryListSerializer
     permission_classes = [IsAdminorReadOnly]
+
 
 class CategoryDetailApiView(APIView):
     def get(self, request, id):

@@ -20,7 +20,7 @@ class CartItem(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name='product')
     quantity = models.PositiveIntegerField(default=1)
-    is_ordered=models.BooleanField(default=False)
+    is_ordered = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.quantity} x {self.product.name} in {self.cart}'
@@ -51,7 +51,8 @@ class Order(models.Model):
 
     cart = models.ForeignKey(
         Cart, on_delete=models.CASCADE, related_name='cart_order')
-    products=models.ManyToManyField(CartItem,related_name='orders',blank=True)
+    products = models.ManyToManyField(
+        CartItem, related_name='orders', blank=True)
     payment_method = models.CharField(
         max_length=10, choices=PAYMENT_METHOD_CHOICES)
     total_amount = models.DecimalField(
@@ -60,7 +61,7 @@ class Order(models.Model):
         max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_cancelled=models.BooleanField(default=False)
+    is_cancelled = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Order for {self.cart.user.username}'
