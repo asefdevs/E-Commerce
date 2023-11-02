@@ -8,14 +8,46 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework import permissions
 from rest_framework.exceptions import NotFound
-
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
+import secrets
+from django.urls import reverse
 class RegisterApiView(APIView):
     def post(self,request):
         serializer=UserRegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
-    
+        user=serializer.save()
+        token = secrets.token_urlsafe(32)
+        user_email=user.email
+        user.email_verification_token = token
+        user.save()
+        current_site = get_current_site(request).domain
+        relativeLink = reverse('verify-email')
+        verification_link = 'http://'+current_site + \
+                relativeLink+"?token="+str(token)
+        # send_mail(
+        #     'Email Verification',
+        #     f'Click the link to verify your email: {verification_link}',
+        #     'sender@example.com',  
+        #     [user_email],
+        #     fail_silently=False,
+        # )        
+        return Response({'message': f'Please check your email for verification{verification_link}'})
+
+
+class VerifyEmailView(generics.GenericAPIView):
+    def get(self, request):
+        token = request.GET.get('token')
+        try:
+            user = CustomUser.objects.get(email_verification_token=token)
+            user.is_verified = True
+            user.email_verification_token = None
+            user.save()
+            return Response({'message': 'Successfully verified'}, status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'Invalid token or user not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
 class LoginApiView(APIView):
     def post(self,request):
         serializer=UserLoginSerializer(data=request.data)
