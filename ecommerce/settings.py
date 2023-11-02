@@ -172,3 +172,11 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = config('STRIPE_PUBLIC_KEY')
 SITE_URL = config('SITE_URL')
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'example@gmail.com'
+EMAIL_HOST_PASSWORD = 'app password'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

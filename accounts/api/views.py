@@ -25,14 +25,14 @@ class RegisterApiView(APIView):
         relativeLink = reverse('verify-email')
         verification_link = 'http://'+current_site + \
                 relativeLink+"?token="+str(token)
-        # send_mail(
-        #     'Email Verification',
-        #     f'Click the link to verify your email: {verification_link}',
-        #     'sender@example.com',  
-        #     [user_email],
-        #     fail_silently=False,
-        # )        
-        return Response({'message': f'Please check your email for verification{verification_link}'})
+        send_mail(
+            'Email Verification',
+            f'Click the link to verify your email: {verification_link}',
+            'sender@example.com',  
+            [user_email],
+            fail_silently=False,
+        )        
+        return Response({'message': f'Please check your email for verification'})
 
 
 class VerifyEmailView(generics.GenericAPIView):
@@ -54,16 +54,23 @@ class LoginApiView(APIView):
         if serializer.is_valid():
             username=serializer.validated_data['username']
             password=serializer.validated_data['password'] 
-            user=authenticate(username=username, password=password)
-            if user is not None:
-                refresh = RefreshToken.for_user(user)
-                token = {
-                    'refresh': str(refresh),
-                    'access': str(refresh.access_token),
-                }
-                return Response(token, status=status.HTTP_200_OK)
+            try:
+                user=CustomUser.objects.get(username=username)
+            except CustomUser.DoesNotExist:
+                raise Exception('User doesnt exist')
+            if user.is_verified == True:
+                user=authenticate(username=username, password=password)
+                if user is not None:
+                    refresh = RefreshToken.for_user(user)
+                    token = {
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token),
+                    }
+                    return Response(token, status=status.HTTP_200_OK)
+                else:
+                    return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
             else:
-                return Response({'detail': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({'detail': 'This account is not verified'})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProfileDetailApiView(generics.RetrieveUpdateDestroyAPIView):
